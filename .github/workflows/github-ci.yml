@@ -20,7 +20,7 @@ jobs:
           - os: macos-latest
             NAME: macos-x86-64
           - os: [self-hosted, macOS, ARM64]
-            NAME: mac-arm64
+            NAME: macos-arm64
     steps:
       - uses: actions/checkout@v3
       - uses: graalvm/setup-graalvm@v1
@@ -42,9 +42,9 @@ jobs:
             target/native-image
 
 # ToDo: Not actually work.
-#      - name: Release
-#        if: startsWith(github.event.ref, 'refs/tags/v')
-#        uses: softprops/action-gh-release@v1
-#        with:
-#          files: target/native-image/*
-#          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Release
+        if: startsWith(github.event.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: target/native-image/CMakeLists.txt
+          token: ${{ secrets.GITHUB_TOKEN }}

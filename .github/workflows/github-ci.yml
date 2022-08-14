@@ -44,10 +44,15 @@ jobs:
             target/native-image
 
 # ToDo: Not actually work.
-      - name: Release
-        #if: startsWith(github.event.ref, 'refs/tags/v')
-        uses: actions/download-artifact@v3
+      - name: Create archive
+        uses: thedoctor0/zip-release@main
         with:
-          name: graalvm-test-native-lib-${{ matrix.NAME }}  
-      - name: Display structure of downloaded files
-        run: ls -R
+          type: 'zip'
+          filename: 'graalvm-test-native-lib-${{ matrix.NAME }}.zip'
+          path: |
+            target/native-image
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: graalvm-test-native-lib-${{ matrix.NAME }}.zip
+          token: ${{ secrets.GITHUB_TOKEN }}

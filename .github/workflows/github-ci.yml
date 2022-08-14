@@ -17,12 +17,13 @@ jobs:
         include:
           - os: ubuntu-latest
             NAME: linux
-          #- os: windows-latest
-          #  NAME: windows
-          #- os: macos-latest
-          #  NAME: macos-x86-64
-          #- os: [self-hosted, macOS, ARM64]
-          #  NAME: macos-arm64
+          - os: windows-latest
+            NAME: windows
+          - os: macos-latest
+            NAME: macos-x86-64
+          - os: [self-hosted, macOS, ARM64]
+            NAME: macos-arm64
+            
     steps:
       - uses: actions/checkout@v3
       - uses: graalvm/setup-graalvm@v1

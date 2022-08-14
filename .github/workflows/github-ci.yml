@@ -17,12 +17,12 @@ jobs:
         include:
           - os: ubuntu-latest
             NAME: linux
-          - os: windows-latest
-            NAME: windows
-          - os: macos-latest
-            NAME: macos-x86-64
-          - os: [self-hosted, macOS, ARM64]
-            NAME: macos-arm64
+          #- os: windows-latest
+          #  NAME: windows
+          #- os: macos-latest
+          #  NAME: macos-x86-64
+          #- os: [self-hosted, macOS, ARM64]
+          #  NAME: macos-arm64
     steps:
       - uses: actions/checkout@v3
       - uses: graalvm/setup-graalvm@v1
@@ -45,8 +45,9 @@ jobs:
 
 # ToDo: Not actually work.
       - name: Release
-        if: startsWith(github.event.ref, 'refs/tags/v')
-        uses: softprops/action-gh-release@v1
+        #if: startsWith(github.event.ref, 'refs/tags/v')
+        uses: actions/download-artifact@v3
         with:
-          files: target/native-image/CMakeLists.txt
-          token: ${{ secrets.GITHUB_TOKEN }}
+          name: graalvm-test-native-lib-${{ matrix.NAME }}  
+      - name: Display structure of downloaded files
+        run: ls -R

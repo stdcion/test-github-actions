@@ -2,26 +2,32 @@ name: Build
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
-    name: Build on ${{ matrix.os }}
+    name: Build on ${{ matrix.NAME }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ ubuntu-latest, windows-latest, macos-latest]
         include:
+          - os: ubuntu-latest
+            NAME: linux
+          - os: windows-latest
+            NAME: windows
+          - os: macos-latest
+            NAME: macos-x86-64
           - os: [self-hosted, macOS, ARM64]
+            NAME: mac-arm64
     steps:
       - uses: actions/checkout@v3
       - uses: graalvm/setup-graalvm@v1
         with:
-          version: '22.1.0'
-          java-version: '11'
-          components: 'native-image'
+          version: "22.1.0"
+          java-version: "11"
+          components: "native-image"
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and Install
@@ -31,7 +37,7 @@ jobs:
       - name: Upload binary
         uses: actions/upload-artifact@v3
         with:
-          name: graalvm-test-native-lib-${{ matrix.os }}
+          name: graalvm-test-native-lib-${{ matrix.NAME }}
           path: |
             target/native-image
 

@@ -49,8 +49,7 @@ jobs:
         with:
           type: 'zip'
           filename: 'graalvm-test-native-lib-${{ matrix.NAME }}.zip'
-          path: |
-            target/native-image
+          directory: target/native-image
       - name: Release
         uses: softprops/action-gh-release@v1
         with:

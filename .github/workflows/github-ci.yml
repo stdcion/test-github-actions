@@ -12,8 +12,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ ubuntu-latest, windows-latest, macos-latest, self-hosted]
-
+        os: [ ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: [self-hosted, macOS, ARM64]
     steps:
       - uses: actions/checkout@v3
       - uses: graalvm/setup-graalvm@v1

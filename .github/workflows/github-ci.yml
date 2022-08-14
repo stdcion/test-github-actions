@@ -36,21 +36,23 @@ jobs:
         run: |
           mvn clean install
 
-      - name: Upload binary
+      - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: graalvm-test-native-lib-${{ matrix.NAME }}
           path: |
             target/native-image
 
-# ToDo: Not actually work.
       - name: Create archive
+        if: startsWith(github.event.ref, 'refs/tags/v')
         uses: thedoctor0/zip-release@main
         with:
           type: 'zip'
           filename: 'graalvm-test-native-lib-${{ matrix.NAME }}.zip'
           directory: target/native-image
+
       - name: Release
+        if: startsWith(github.event.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v1
         with:
           files: target/native-image/graalvm-test-native-lib-${{ matrix.NAME }}.zip
